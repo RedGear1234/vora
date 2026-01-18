@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Eye, Plus } from 'lucide-react';
 import { Product } from '../types';
@@ -6,7 +7,7 @@ import { Link } from 'react-router-dom';
 interface ProductCardProps {
   product: Product;
   onAddToCart: (p: Product) => void;
-  onQuickView: (p: Product | null) => void;
+  onQuickView: (p: Product) => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onQuickView }) => {
