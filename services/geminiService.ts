@@ -1,8 +1,8 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { Product } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = (process.env.API_KEY as string) || '';
+const ai = new GoogleGenAI({ apiKey });
 
 export const geminiService = {
   async getShoppingAdvice(userQuery: string, availableProducts: Product[]) {
