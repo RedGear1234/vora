@@ -1,11 +1,6 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { Product } from "../types";
-
-declare var process: {
-  env: {
-    API_KEY: string;
-  };
-};
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
