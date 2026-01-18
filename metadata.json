@@ -1,0 +1,8 @@
+{
+  "name": "Vora Market",
+  "description": "A premium AI-powered e-commerce storefront featuring smart product recommendations, automated description generation, and a sleek modern UI designed for high conversion.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
