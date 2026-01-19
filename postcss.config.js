@@ -1,7 +1,2 @@
-
-export default {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
+// This file is no longer used and can be safely deleted.
+export default {}
