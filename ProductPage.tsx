@@ -1,11 +1,11 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Product } from './types';
 import { db } from './services/db';
 import { geminiService } from './services/geminiService';
 import ProductCard from './components/ProductCard';
-import { ArrowRight, ShieldCheck, Compass, Wind, Diamond, Star, ChevronLeft, Loader2 } from 'lucide-react';
-import { ProductSkeleton } from './components/Skeletons';
+import { ArrowRight, ShieldCheck, Compass, Star, ChevronLeft } from 'lucide-react';
 
 interface ProductPageProps {
   onAddToCart: (p: Product) => void;
@@ -42,122 +42,113 @@ const ProductPage: React.FC<ProductPageProps> = ({ onAddToCart }) => {
 
   if (isLoading) {
     return (
-      <div className="pt-24 lg:pt-32 pb-40 max-w-7xl mx-auto px-6 lg:px-12 animate-pulse">
-        <div className="h-4 bg-neutral-100 w-32 mb-16" />
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
-          <div className="lg:col-span-7">
-            <div className="aspect-[4/5] bg-neutral-100" />
-          </div>
-          <div className="lg:col-span-5 space-y-12">
-            <div className="space-y-6">
-              <div className="h-3 bg-neutral-50 w-24" />
-              <div className="h-16 bg-neutral-100 w-full" />
-              <div className="h-12 bg-neutral-100 w-1/3 mt-8" />
-            </div>
-            <div className="space-y-4">
-              <div className="h-4 bg-neutral-100 w-full" />
-              <div className="h-4 bg-neutral-100 w-full" />
-              <div className="h-4 bg-neutral-100 w-2/3" />
-            </div>
-          </div>
-        </div>
+      <div className="container-full" style={{ paddingTop: '160px', paddingBottom: '160px' }}>
+        <p style={{ fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.4em' }}>Retrieving Entry...</p>
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="pt-64 pb-64 text-center">
-        <h2 className="text-4xl font-serif italic text-gray-200 mb-8">Archive Reference Missing</h2>
-        <Link to="/" className="text-[11px] font-black uppercase tracking-[0.5em] border-b border-black pb-2">Return to Core Archive</Link>
+      <div className="container-full" style={{ paddingTop: '160px', paddingBottom: '160px', textAlign: 'center' }}>
+        <h2 className="font-serif" style={{ fontSize: '2rem', marginBottom: '24px' }}>Archive Entry Missing</h2>
+        <Link to="/" style={{ fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.4em', borderBottom: '1px solid black', paddingBottom: '4px', textDecoration: 'none', color: 'inherit' }}>Return to Core</Link>
       </div>
     );
   }
 
   return (
-    <div className="pt-24 lg:pt-32 pb-40 animate-in fade-in duration-1000">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <Link to="/" className="inline-flex items-center gap-4 text-[11px] font-black uppercase tracking-[0.5em] text-gray-300 hover:text-black transition-all mb-16">
-          <ChevronLeft className="h-4 w-4" />
+    <div className="product-page-root" style={{ paddingTop: 'clamp(100px, 12vw, 140px)', paddingBottom: '120px' }}>
+      <div className="container-full">
+        <Link to="/" className="back-archival-link" style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '10px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.5em', textDecoration: 'none', color: 'var(--color-neutral-400)', marginBottom: '40px' }}>
+          <ChevronLeft size={16} />
           Back to Archive
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
-          <div className="lg:col-span-7">
-            <div className="aspect-[4/5] bg-gray-50 overflow-hidden shadow-2xl reveal active">
-              <img 
-                src={product.image} 
-                alt={product.name} 
-                className="w-full h-full object-cover grayscale scale-100 hover:grayscale-0 hover:scale-105 transition-all duration-[2s]" 
-              />
+        <div className="product-detail-layout">
+          <div className="product-visual-col">
+            <div className="card-image-wrap" style={{ aspectRatio: '4/5', boxShadow: '0 40px 100px rgba(0,0,0,0.05)' }}>
+              <img src={product.image} alt={product.name} className="card-image" style={{ filter: 'grayscale(0)' }} />
             </div>
           </div>
 
-          <div className="lg:col-span-5 space-y-12 lg:sticky lg:top-32">
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.8em] text-gray-300">Ref. 2025-{product.id.padStart(3, '0')}</p>
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-black tracking-[-0.04em] leading-tight">{product.name}</h1>
-              </div>
+          <div className="product-info-col">
+            <div className="info-header">
+              <p style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.8em', color: 'var(--color-neutral-400)', marginBottom: '16px' }}>Ref. 2025-{product.id.padStart(3, '0')}</p>
+              <h1 className="font-serif product-main-title">{product.name}</h1>
               
-              <div className="flex items-center gap-6 py-4 border-b border-gray-100">
-                <p className="text-4xl font-serif italic text-black">${product.price.toFixed(0)}</p>
-                <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-gray-300">
-                  <Star className="h-3 w-3 fill-gray-300" />
-                  <span>{product.rating} / 5.0</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '24px', paddingBottom: '24px', borderBottom: '1px solid var(--color-neutral-100)' }}>
+                <p className="font-serif" style={{ fontSize: '2rem', fontStyle: 'italic' }}>${product.price.toFixed(0)}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--color-neutral-400)' }}>
+                  <Star size={12} style={{ fill: 'var(--color-neutral-400)' }} />
+                  {product.rating} / 5.0
                 </div>
               </div>
             </div>
 
-            <div className="space-y-10">
-              <p className="text-xl text-gray-500 font-light leading-relaxed">
-                {product.description}
-              </p>
+            <p className="product-desc-text">
+              {product.description}
+            </p>
 
-              <div className="space-y-6 pt-8">
-                <button 
-                  onClick={() => onAddToCart(product)}
-                  className="w-full group bg-black text-white px-10 py-6 flex items-center justify-between text-[11px] font-black uppercase tracking-[0.6em] hover:bg-neutral-800 transition-all shadow-xl"
-                >
-                  Allocate to Bag
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-4 transition-transform duration-500" />
-                </button>
+            <button className="btn-primary buy-btn-action" onClick={() => onAddToCart(product)}>
+              Allocate to Bag
+              <ArrowRight size={18} />
+            </button>
+
+            <div className="utility-grid">
+              <div className="utility-item">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.2em' }}>
+                  <ShieldCheck size={14} strokeWidth={1.5} />
+                  Guarantee
+                </div>
+                <p style={{ fontSize: '10px', color: 'var(--color-neutral-500)', lineHeight: '1.6' }}>Sourced from certified workshops for permanence.</p>
               </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 border-t border-gray-100 pt-10">
-                 <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-black">
-                       <ShieldCheck className="h-4 w-4 stroke-[1.5]" />
-                       Archival Guarantee
-                    </div>
-                    <p className="text-[11px] text-gray-400 font-medium leading-relaxed">Sourced from certified workshops ensuring permanent longevity.</p>
-                 </div>
-                 <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-black">
-                       <Compass className="h-4 w-4 stroke-[1.5]" />
-                       Global Origin
-                    </div>
-                    <p className="text-[11px] text-gray-400 font-medium leading-relaxed">Conceived in Paris. Formulated with artisan precision.</p>
-                 </div>
+              <div className="utility-item">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.2em' }}>
+                  <Compass size={14} strokeWidth={1.5} />
+                  Origin
+                </div>
+                <p style={{ fontSize: '10px', color: 'var(--color-neutral-500)', lineHeight: '1.6' }}>Conceived in Paris. Artisan crafted in small batches.</p>
               </div>
             </div>
           </div>
         </div>
 
         {similarProducts.length > 0 && (
-          <div className="mt-40 lg:mt-64 reveal active">
-             <div className="flex justify-between items-baseline mb-16 border-b border-gray-100 pb-8">
-                <h2 className="text-4xl font-serif font-black tracking-tight">Similar Archive Entry.</h2>
-                <Link to="/" className="text-[10px] font-black uppercase tracking-widest hover:opacity-50">View All</Link>
-             </div>
-             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-                {similarProducts.slice(0, 3).map((p) => (
-                  <ProductCard key={p.id} product={p} onAddToCart={onAddToCart} onQuickView={(_p) => {}} />
-                ))}
-             </div>
+          <div style={{ marginTop: 'clamp(60px, 10vw, 120px)' }}>
+            <h2 className="font-serif" style={{ fontSize: '2rem', marginBottom: '48px', borderBottom: '1px solid var(--color-neutral-100)', paddingBottom: '24px' }}>Similar Archives.</h2>
+            <div className="product-grid">
+              {similarProducts.slice(0, 4).map(p => (
+                <ProductCard key={p.id} product={p} onAddToCart={onAddToCart} onQuickView={() => {}} />
+              ))}
+            </div>
           </div>
         )}
       </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .product-detail-layout {
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          gap: 64px;
+        }
+        .product-visual-col { grid-column: span 7; }
+        .product-info-col { grid-column: span 5; display: flex; flex-direction: column; gap: 48px; }
+        .product-main-title { font-size: clamp(2.5rem, 4vw, 4.5rem); font-weight: 900; letter-spacing: -0.04em; lineHeight: 1.1; margin-bottom: 24px; }
+        .product-desc-text { font-size: 1.1rem; color: var(--color-neutral-500); font-weight: 300; line-height: 1.8; }
+        .buy-btn-action { width: 100%; padding: 24px; }
+        .utility-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; border-top: 1px solid var(--color-neutral-100); padding-top: 32px; }
+
+        @media (max-width: 1024px) {
+          .product-detail-layout { grid-template-columns: 1fr; gap: 40px; }
+          .product-visual-col, .product-info-col { grid-column: span 1; }
+          .product-info-col { gap: 32px; }
+          .product-main-title { font-size: 2.8rem; }
+        }
+        @media (max-width: 640px) {
+          .utility-grid { grid-template-columns: 1fr; gap: 24px; }
+        }
+      `}} />
     </div>
   );
 };

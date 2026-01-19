@@ -1,4 +1,3 @@
-
 import { Product, Category, Feedback } from '../types';
 
 export const INITIAL_PRODUCTS: Product[] = [
@@ -29,11 +28,11 @@ export const INITIAL_PRODUCTS: Product[] = [
   {
     id: '3',
     name: 'Santal No. 04',
-    description: 'A cold, metallic opening that settles into a warm, creamy sandalwood base.',
+    description: 'A cold, metallic opening that settles into a warm, creamy sandalwood base. Housed in borosilicate glass.',
     price: 185.00,
     category: Category.BEAUTY,
     material: 'Glass & Essence',
-    image: 'https://images.unsplash.com/photo-1594125355945-813c9e992170?auto=format&fit=crop&q=80&w=1200',
+    image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200',
     rating: 4.8,
     reviews: 156,
     stock: 25
@@ -45,7 +44,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 950.00,
     category: Category.ELECTRONICS,
     material: 'Titanium',
-    image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&q=80&w=1200',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=1200',
     rating: 5.0,
     reviews: 24,
     stock: 3
@@ -53,11 +52,11 @@ export const INITIAL_PRODUCTS: Product[] = [
   {
     id: '5',
     name: 'Mono Frames',
-    description: 'Hand-polished acetate in a classic rectangular shape with polarized lenses.',
+    description: 'Hand-polished acetate in a classic rectangular shape with polarized lenses. Archival design.',
     price: 220.00,
     category: Category.FASHION,
     material: 'Acetate',
-    image: 'https://images.unsplash.com/photo-1511499767350-a1590fdb7318?auto=format&fit=crop&q=80&w=1200',
+    image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=1200',
     rating: 4.6,
     reviews: 64,
     stock: 15
@@ -90,12 +89,5 @@ export const MOCK_FEEDBACK: Feedback[] = [
     role: 'Art Director',
     quote: 'Rarely do I find a marketplace that curates with such a specific, uncompromising vision. Truly exceptional.',
     avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200'
-  },
-  {
-    id: 'f3',
-    name: 'Marcus Thorne',
-    role: 'Collector',
-    quote: 'The Santal No. 04 is a revelation. The scent is architectural, evolving beautifully throughout the day.',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200'
   }
 ];

@@ -1,6 +1,8 @@
+
 import React from 'react';
 import { Product } from '../types';
 import { Link } from 'react-router-dom';
+import { Eye } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -8,50 +10,32 @@ interface ProductCardProps {
   onQuickView: (p: Product) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onQuickView(product);
+  };
+
   return (
-    <div className="archival-card reveal">
-      <Link to={`/product/${product.id}`} className="card-image-wrap">
+    <Link to={`/product/${product.id}`} className="archival-card reveal">
+      <div className="card-image-wrap">
         <img src={product.image} alt={product.name} className="card-image" />
-        <div className="card-badges" style={{ position: 'absolute', top: '20px', left: '20px' }}>
-          {product.isAiGenerated && (
-            <span style={{
-              background: 'rgba(255,255,255,0.9)',
-              padding: '6px 12px',
-              fontSize: '8px',
-              fontWeight: 900,
-              textTransform: 'uppercase',
-              letterSpacing: '0.2em'
-            }}>Archival Rare</span>
-          )}
-        </div>
-      </Link>
+        <button 
+          className="quick-view-btn" 
+          onClick={handleQuickView}
+          aria-label={`Quick view ${product.name}`}
+        >
+          <Eye size={14} strokeWidth={1.5} />
+          <span>Quick View</span>
+        </button>
+      </div>
       
       <div className="card-info">
-        <div className="card-label">
-          <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit', flex: 1 }}>
-            <h3 className="card-title">{product.name}</h3>
-          </Link>
-          <span className="card-price" style={{ fontSize: '20px', fontWeight: 500 }}>${product.price}</span>
-        </div>
-        
-        <div style={{ 
-          marginTop: '16px', 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          paddingTop: '16px',
-          borderTop: '1px solid var(--color-border)'
-        }}>
-          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', color: 'var(--color-muted)', letterSpacing: '0.2em' }}>
-            {product.category}
-          </span>
-          <span style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', color: 'var(--color-muted)' }}>
-            Ref. {product.material.split(' ')[0]}
-          </span>
-        </div>
+        <h3 className="card-title">{product.name}</h3>
+        <p className="card-price">${product.price.toFixed(0)}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 
