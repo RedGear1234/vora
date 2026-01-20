@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { ShoppingBag, Search, Menu, X, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Search, Menu as MenuIcon, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 interface NavbarProps {
@@ -18,55 +17,40 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menu on navigation or window resize to desktop
+  // Close menu when location changes
   React.useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
 
-  React.useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 1024) setIsMenuOpen(false);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Lock scroll when menu is active
-  React.useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isMenuOpen]);
-
   return (
     <>
-      <nav className={`vora-nav ${scrolled ? 'scrolled' : ''} ${isMenuOpen ? 'menu-active' : ''}`}>
+      <nav className={`vora-nav ${scrolled ? 'scrolled' : ''}`}>
         <div className="container-full">
           <div className="nav-content">
             <div className="nav-column-left">
-              {/* Desktop Only Links */}
-              <div className="desktop-links">
+              {/* Desktop Links - Visible on Desktop only */}
+              <div className="desktop-links mobile-hide">
                 <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>Shop</Link>
                 <Link to="/curated" className="nav-link">Curated</Link>
                 <Link to="/story" className="nav-link">Our Story</Link>
               </div>
               
-              {/* Mobile Only Trigger */}
+              {/* Mobile Menu Trigger - Visible on Mobile only */}
               <button 
-                className="mobile-trigger" 
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                className="nav-action-btn desktop-hide" 
+                onClick={() => setIsMenuOpen(true)}
+                aria-label="Open Menu"
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
               >
-                {isMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+                <MenuIcon size={20} strokeWidth={1.5} />
+                <span className="menu-trigger-label">Menu</span>
               </button>
             </div>
 
             <Link to="/" className="nav-logo">VORA</Link>
 
             <div className="nav-actions">
-              <button className="nav-action-btn search-mobile-hide" aria-label="Search">
+              <button className="nav-action-btn search-mobile-hide" aria-label="Search" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
                 <Search size={18} strokeWidth={1.5} />
               </button>
               <Link to="/cart" className="bag-link">
@@ -81,42 +65,19 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount }) => {
         </div>
       </nav>
 
-      {/* Mobile Navigation Drawer */}
-      <div className={`mobile-drawer ${isMenuOpen ? 'is-open' : ''}`}>
-        <div className="drawer-inner">
-          <div className="drawer-nav">
-            <Link to="/" className="drawer-item">
-              <span className="drawer-num">01</span>
-              <span className="drawer-text">The Archive</span>
-              <ArrowRight size={20} strokeWidth={1} />
-            </Link>
-            <Link to="/curated" className="drawer-item">
-              <span className="drawer-num">02</span>
-              <span className="drawer-text">Curated Lists</span>
-              <ArrowRight size={20} strokeWidth={1} />
-            </Link>
-            <Link to="/story" className="drawer-item">
-              <span className="drawer-num">03</span>
-              <span className="drawer-text">Our Story</span>
-              <ArrowRight size={20} strokeWidth={1} />
-            </Link>
-            <Link to="/contact" className="drawer-item">
-              <span className="drawer-num">04</span>
-              <span className="drawer-text">Concierge</span>
-              <ArrowRight size={20} strokeWidth={1} />
-            </Link>
-          </div>
-          
-          <div className="drawer-footer">
-            <div className="footer-meta">
-              <p>Registry No. 01</p>
-              <p>Conceived in Paris</p>
-            </div>
-            <div className="drawer-socials">
-              <a href="#">Instagram</a>
-              <a href="#">Journal</a>
-            </div>
-          </div>
+      {/* Mobile Menu Overlay */}
+      <div className={`mobile-menu-overlay ${isMenuOpen ? 'active' : ''}`}>
+        <div className="menu-header">
+          <span className="nav-logo">VORA</span>
+          <button onClick={() => setIsMenuOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+            <X size={32} strokeWidth={1} />
+          </button>
+        </div>
+        
+        <div className="menu-links-container">
+          <Link to="/" className="menu-link">Shop</Link>
+          <Link to="/curated" className="menu-link">Curated Selection</Link>
+          <Link to="/story" className="menu-link">Our Story</Link>
         </div>
       </div>
     </>
